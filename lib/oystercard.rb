@@ -18,12 +18,16 @@ class Oystercard
     @balance -= amount
   end
 
-  def touch_in
-    journey = true
+  def in_journey?
+    false
   end
 
-  def touch_out
-    journey = false
-  end
+  # def touch_in
+  #   journey = true
+  # end
+
+  # def touch_out
+  #   journey = false
+  # end
 
 end
