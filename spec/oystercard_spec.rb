@@ -43,21 +43,13 @@ describe Oystercard do
       expect(card).not_to be_in_journey
     end
 
-    # it 'allows the customer to touch in and pass through the barriers' do
-    #   expect(card).to respond_to(:touch_in)
-    # end
+    it 'starts a journey when you touch in' do 
+      expect(card.touch_in).to eq(true)
+    end
 
-    # it 'allows the customer to touch out and pass through the barriers' do
-    #   expect(card).to respond_to(:touch_out)
-    # end
-
-    # it 'starts a journey when you touch in' do 
-    #   expect(card.touch_in).to eq(true)
-    # end
-
-    # it 'ends a journey when you touch out' do 
-    #   expect(card.touch_out).to eq(false)
-    # end
+    it 'ends a journey when you touch out' do 
+      expect(card.touch_out).to eq(false)
+    end
 
   end
 
