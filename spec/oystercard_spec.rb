@@ -15,7 +15,7 @@ describe Oystercard do
   describe '#Top_up' do
 
     it 'Balance should change when topped up' do
-      expect{ card.top_up 30}.to change{ subject.balance }.by 30
+      expect{ card.top_up 30 }.to change{ subject.balance }.by 30
     end
 
     it 'raises an error if the maximum balance is exceeded' do
@@ -44,11 +44,14 @@ describe Oystercard do
     end
 
     it 'starts a journey when you touch in' do 
-      expect(card.touch_in).to eq(true)
+      card.touch_in
+      expect(card).to be_in_journey
     end
 
     it 'ends a journey when you touch out' do 
-      expect(card.touch_out).to eq(false)
+      card.touch_in
+      card.touch_out
+      expect(card).to_not be_in_journey
     end
 
   end
