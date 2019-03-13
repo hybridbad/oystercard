@@ -27,7 +27,7 @@ describe Oystercard do
   describe '#Journey' do
     it 'returns a success message when we touch_in' do
       card.top_up(10)
-      expect(card.touch_in(station)).to eq station
+      expect(card.touch_in(station)).to eq [{entry: station, exit: nil}]
     end
 
     it 'touch_in returns true with predicate method in_journey?' do
@@ -36,34 +36,25 @@ describe Oystercard do
       expect(card).to be_in_journey
     end
 
-    it 'returns false with predicate method in_journey' do
-      card.touch_out
+    it 'returns a false boolean when touch_out' do
+      card.top_up(30)
+      card.touch_in(station)
+      card.touch_out(station)
       expect(card).not_to be_in_journey
     end
 
     it 'returns false after touch_in and touch_out' do
       card.top_up(10)
       card.touch_in(station)
-      card.touch_out
+      card.touch_out(station)
       expect(card).not_to be_in_journey
-    end
-
-    it 'stores the current station when you touch in' do
-      card.top_up(10)
-      expect(card.touch_in(station)).to eq(station)
-    end
-
-    it 'resets entry station when you touch out' do
-      card.top_up(10)
-      card.touch_in(station)
-      expect(card.touch_out).to eq nil
     end
 
   end
 
   describe '#Min balance' do
       it 'raises error if balance is not min amount' do
-        expect { card.touch_in(station) }.to raise_error "You need #{Oystercard::MIN_AMOUNT} for a journey"
+        expect { card.touch_in(station) }.to raise_error "You need #{Oystercard::MINIMUM_FARE} for a journey"
       end
   end
 
@@ -71,7 +62,26 @@ describe Oystercard do
     it 'test charging for journey' do
       card.top_up(10)
       card.touch_in(station)
-      expect { card.touch_out }.to change{ card.balance }.by(-Oystercard::MINIMUM_FARE)
+      expect { card.touch_out(station) }.to change{ card.balance }.by(-Oystercard::MINIMUM_FARE)
+    end
+  end
+
+  describe 'Storing a journey' do
+    it 'when init Oystecard, journey array is empty' do
+      expect(card.journey).to eq []
+    end
+
+    it 'stores the entry station in the journey array' do
+      card.top_up(20)
+      card.touch_in(station)
+      expect(card.journey).to eq [{entry: station, exit: nil}]
+    end
+
+    it 'stores the exit station in the journey array' do
+      card.top_up(20)
+      card.touch_in(station)
+      card.touch_out(station)
+      expect(card.journey).to eq [{entry: station, exit: station}]
     end
   end
 end
