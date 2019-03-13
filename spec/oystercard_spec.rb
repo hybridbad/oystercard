@@ -71,6 +71,12 @@ describe Oystercard do
       expect(card.journey).to eq []
     end
 
+    # it 'if touch in when in journey, deduct penalty fare' do
+    #   card.top_up(20)
+    #   card.touch_in(station)
+    #   expect { card.touch_in(station) }.to change{ card.balance }.by(-Oystercard::PENALTY)
+    # end
+
     it 'stores the entry station in the journey array' do
       card.top_up(20)
       card.touch_in(station)
