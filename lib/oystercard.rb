@@ -1,3 +1,5 @@
+require_relative 'station'
+
 class Oystercard
   attr_reader :balance, :entry_station, :journey
   LIMIT = 90
@@ -28,7 +30,7 @@ class Oystercard
   end
 
   private
-  
+
   def deduct(amount)
     @balance -= amount
   end
